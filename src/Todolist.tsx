@@ -5,6 +5,11 @@ import {AddItemForm} from "./AddItemForm";
 import {SuperInput} from "./components/SuperInput";
 import {SuperButton} from "./components/SuperButton";
 import {EditableSpan} from "./EditableSpan";
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
+
 
 type TaskType = {
     id: string
@@ -75,18 +80,21 @@ export function Todolist(props: PropsType) {
         props.addTask(props.todolistId, newTask)
     }
 
-    const addTitleHandler = (tID:string, newTitle: string) => {
+    const addTitleHandler = (tID: string, newTitle: string) => {
         props.changeTaskTitle(props.todolistId, tID, newTitle)
     }
 
     const updateTodolisHandler = (title: string) => {
         props.changeTodolisTitle(props.todolistId, title)
     }
+
     return <div>
         <h3>
             <EditableSpan title={props.title} addTitleHandler={updateTodolisHandler}/>
-
-            <button onClick={deletTodolistHandler}>X</button>
+            <IconButton onClick={deletTodolistHandler} aria-label="delete">
+                <DeleteIcon/>
+            </IconButton>
+            {/*<button onClick={deletTodolistHandler}>X</button>*/}
         </h3>
         <div>
             {/*<input className={error ? s.error : ''}*/}
@@ -97,7 +105,6 @@ export function Todolist(props: PropsType) {
             {/*<button onClick={addTask}>+</button>*/}
             {/*{error && <div className={s.errorMessage}>{error}</div>}*/}
             <AddItemForm onClick={addTaskHandler}/>
-
         </div>
         <ul>
             {
@@ -110,21 +117,37 @@ export function Todolist(props: PropsType) {
                     //     props.changeTaskTitle(props.todolistId, t.id, newTitle)
                     // }
                     return <li key={t.id}>
-                        <input className={t.isDone ? s.isDone : ''} type="checkbox" checked={t.isDone}
-                               onChange={(e) => changeIsDoneHandler(e.currentTarget.checked, t.id)}/>
-                        <EditableSpan title={t.title} addTitleHandler={(title)=>addTitleHandler(t.id, title)}/>
-                        <button onClick={onClickHandler}>x</button>
+                        {/*<input className={t.isDone ? s.isDone : ''} type="checkbox" checked={t.isDone}*/}
+                        {/*       onChange={(e) => changeIsDoneHandler(e.currentTarget.checked, t.id)}/>*/}
+                        <Checkbox className={t.isDone ? s.isDone : ''} checked={t.isDone} size="small"
+                                  onChange={(e) => changeIsDoneHandler(e.currentTarget.checked, t.id)}/>
+                        <EditableSpan title={t.title} addTitleHandler={(title) => addTitleHandler(t.id, title)}/>
+                        <IconButton onClick={onClickHandler} aria-label="delete" size="small" color="default">
+                            <DeleteIcon fontSize="small"/>
+                        </IconButton>
                     </li>
                 })
             }
         </ul>
         <div>
-            <button className={buttonActive === 'all' ? s.activeFilter : ''} onClick={onAllClickHandler}>All</button>
-            <button className={buttonActive === 'active' ? s.activeFilter : ''} onClick={onActiveClickHandler}>Active
-            </button>
-            <button className={buttonActive === 'completed' ? s.activeFilter : ''}
-                    onClick={onCompletedClickHandler}>Completed
-            </button>
+            {/*<button className={buttonActive === 'all' ? s.activeFilter : ''} onClick={onAllClickHandler}>All</button>*/}
+            {/*<button className={buttonActive === 'active' ? s.activeFilter : ''} onClick={onActiveClickHandler}>Active*/}
+            {/*</button>*/}
+            {/*<button className={buttonActive === 'completed' ? s.activeFilter : ''}*/}
+            {/*        onClick={onCompletedClickHandler}>Completed*/}
+            {/*</button>*/}
+            <Button variant="contained" color={buttonActive === 'all' ? 'secondary' : 'success'}
+                    onClick={onAllClickHandler}>
+                All
+            </Button>
+            <Button variant="contained" color={buttonActive === 'active' ? 'secondary' : 'success'}
+                    onClick={onActiveClickHandler}>
+                Active
+            </Button>
+            <Button variant="contained" color={buttonActive === 'completed' ? 'secondary' : 'success'}
+                    onClick={onCompletedClickHandler}>
+                Completed
+            </Button>
         </div>
     </div>
 }
